@@ -1,17 +1,36 @@
 
 .column {
+    width: 50%;
     padding: 10px;
-    margin-right: 20px;
     border-radius: 3px;
     background-color: rgb(235, 236, 240);
+}
+
+.column:not(:last-child) {
+    margin-right: 10px;
+}
+
+.column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
 .movie-list {
     display: flex;
     flex-direction: column;
-    height: 60vh;
-    width: 300px;
+    height: 70vh;
     overflow-y: scroll;
+
+}
+
+@media(max-width: 530px) {
+    .column-header {
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+
 
 }

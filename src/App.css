@@ -1,5 +1,12 @@
 .App {
     display: flex;
+    width: 70vw;
     font-size: 1em;
     font-family: 'Nunito', sans-serif;
+}
+
+@media(max-width: 790px) {
+    .App {
+        width: 100vw;
+    }
 }

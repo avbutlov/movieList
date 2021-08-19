@@ -4,7 +4,6 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { initialData } from "./initialData";
 import TmdapiService from "./services/tmdapiService";
 import "./App.css";
-import Filter from "./components/Filter/Filter";
 
 function App() {
   const [movieData, setMovieData] = React.useState(initialData);
@@ -35,24 +34,6 @@ function App() {
     fetchMovieList();
   }, []);
 
-
-  const filterList = (filterText) => {
-    let newMovies = { ...movieData.movies };
-
-    for (let movie in newMovies) {
-      let movieTitle = newMovies[movie].title;
-      if (movieTitle.toUpperCase().includes(filterText.toUpperCase())) {
-        newMovies[movie].isVisible = true;
-      } else {
-        newMovies[movie].isVisible = false;
-      }
-    }
-
-    setMovieData({
-      ...movieData,
-      movies: newMovies,
-    })
-  };
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -135,7 +116,6 @@ function App() {
           );
         })}
       </DragDropContext>
-      <Filter filterList={filterList} />
     </div>
   );
 }

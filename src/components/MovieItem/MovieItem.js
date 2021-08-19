@@ -7,7 +7,7 @@ function MovieItem({ movie, index, image }) {
   const movieReleaseYear = movie.release_date.split('-')[0];
 
   return movie.isVisible ? (
-    <Draggable draggableId={movie.id.toString()} index={index}>
+    <Draggable key={movie.id} draggableId={movie.id} index={index}>
       {(provided, snapshot) => {
         return (
           <div

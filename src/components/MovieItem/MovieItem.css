@@ -37,3 +37,9 @@
   background-color: rgb(255, 250, 230);
   padding: 4px;
 }
+
+@media(max-width: 460px) {
+    .movie-avatar {
+        display: none;
+    }
+}
