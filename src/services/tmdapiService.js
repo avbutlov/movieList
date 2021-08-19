@@ -22,7 +22,7 @@ export default class TmdapiService {
       id: list.id.toString(),
       title: list.title,
       image: `${this._imageBase}/${list.poster_path}`,
-      release_date: list.release_date,
+      release_year: list.release_date.split('-')[0],
       isVisible: true,
     };
   };

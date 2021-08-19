@@ -15,27 +15,26 @@
 }
 
 .nav-panel li {
-    position: relative;
-    font-size: 1.2em;
-    margin-right: 20px;
-}
-
-.nav-panel li:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    width: 1px;
-    height: 25px;
-    background: black;
-    left: 62px;
-
+  position: relative;
+  font-size: 1.2em;
+  margin-right: 20px;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
-@media (max-width: 790px) {
+li.active {
+  text-decoration: underline;
+}
+
+li.active a {
+  pointer-events: none;
+  cursor: default;
+}
+
+@media (max-width: 1000px) {
   .nav-panel {
     width: 95%;
   }

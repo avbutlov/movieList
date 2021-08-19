@@ -4,8 +4,6 @@ import "./MovieItem.css";
 
 function MovieItem({ movie, index, image }) {
   
-  const movieReleaseYear = movie.release_date.split('-')[0];
-
   return movie.isVisible ? (
     <Draggable key={movie.id} draggableId={movie.id} index={index}>
       {(provided, snapshot) => {
@@ -19,7 +17,7 @@ function MovieItem({ movie, index, image }) {
             <img className="movie-avatar" src={image} alt={movie.title}></img>
             <div className='content-container'>
             {movie.title}
-            <div className='subcontent'>{movieReleaseYear}</div>
+            <div className='subcontent'>{movie.release_year}</div>
             </div>
           </div>
         );
