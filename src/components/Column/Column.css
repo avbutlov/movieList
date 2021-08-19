@@ -1,0 +1,17 @@
+
+.column {
+    padding: 10px;
+    margin-right: 20px;
+    border-radius: 3px;
+    background-color: rgb(235, 236, 240);
+}
+
+
+.movie-list {
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    width: 300px;
+    overflow-y: scroll;
+
+}
