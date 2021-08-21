@@ -5,7 +5,7 @@ import Header from "../Header/Header";
 import { Route, Redirect } from "react-router-dom";
 import HomePage from "../HomePage/HomePage";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
       <Header />

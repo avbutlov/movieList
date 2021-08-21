@@ -1,21 +1,28 @@
 import React from "react";
 import Column from "../Column/Column";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import "./ColumnsContainer.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchMovies, setColumns } from "../../redux/actions/movies";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { IMovie } from "../../types/movies";
 
-function ColumnsContainer() {
+const ColumnsContainer: React.FC = () => {
   const dispatch = useDispatch();
-  const movieData = useSelector((state) => state);
+
+  const { stateMovies, stateColumns, columnsIds } = useTypedSelector((state) => ({
+    stateMovies: state.moviesReducer.movies,
+    stateColumns: state.moviesReducer.columns,
+    columnsIds: state.moviesReducer.columnsIds
+  }));
 
   React.useEffect(() => {
-    if (!movieData.movies.length) {
+    if (!stateMovies.length) {
       dispatch(fetchMovies());
     }
-  }, []);
+  }, [dispatch, stateMovies.length]);
 
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: DropResult): void => {
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -28,13 +35,13 @@ function ColumnsContainer() {
       return;
     }
 
-    const startColumn = movieData.columns[source.droppableId];
-    const finishColumn = movieData.columns[destination.droppableId];
+    const startColumn = stateColumns[source.droppableId];
+    const finishColumn = stateColumns[destination.droppableId];
 
     if (startColumn === finishColumn) {
       const newTasksIds = [...startColumn.moviesIds];
       newTasksIds.splice(source.index, 1);
-      newTasksIds.splice(destination.index, 0, draggableId);
+      newTasksIds.splice(destination.index, 0, +draggableId);
 
       const newColumn = {
         ...startColumn,
@@ -43,7 +50,7 @@ function ColumnsContainer() {
 
       dispatch(
         setColumns({
-          ...movieData.columns,
+          ...stateColumns,
           [newColumn.id]: newColumn,
         })
       );
@@ -57,7 +64,7 @@ function ColumnsContainer() {
       };
 
       const finishTasksIds = [...finishColumn.moviesIds];
-      finishTasksIds.splice(destination.index, 0, draggableId);
+      finishTasksIds.splice(destination.index, 0, +draggableId);
 
       const newFinishColumn = {
         ...finishColumn,
@@ -66,7 +73,7 @@ function ColumnsContainer() {
 
       dispatch(
         setColumns({
-          ...movieData.columns,
+          ...stateColumns,
           [newStartColumn.id]: newStartColumn,
           [newFinishColumn.id]: newFinishColumn,
         })
@@ -74,9 +81,9 @@ function ColumnsContainer() {
     }
   };
 
-  const groupDataByValue = (array, value) => {
-   return array.reduce((result, item) => {
-      result[item[value]] = item;
+  const groupMoviesById = (array: Array<any>, key: string): Record<string, IMovie> => {
+    return array.reduce((result, item) => {
+      result[item[key]] = item;
       return result;
     }, {});
   };
@@ -84,9 +91,9 @@ function ColumnsContainer() {
   return (
     <div className="columns-wrapper">
       <DragDropContext onDragEnd={onDragEnd}>
-        {movieData.columnsIds.map((columnId) => {
-          const column = movieData.columns[columnId];
-          const groupedMovies = groupDataByValue(movieData.movies, "id");
+        {columnsIds.map((columnId) => {
+          const column = stateColumns[columnId];
+          const groupedMovies = groupMoviesById(stateMovies, "id");
           const movies = column.moviesIds.map(
             (movieId) => groupedMovies[movieId]
           );

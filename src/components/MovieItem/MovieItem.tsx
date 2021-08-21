@@ -1,12 +1,19 @@
 import React from "react";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
+import { IMovie } from "../../types/movies";
 import "./MovieItem.css";
 
-function MovieItem({ movie, index, image }) {
+interface IMovieItemProps {
+  movie: IMovie,
+  index: number,
+  imageURL: string,
+}
+
+const MovieItem: React.FC<IMovieItemProps> = ({ movie, index, imageURL }) => {
   
   return movie.isVisible ? (
-    <Draggable key={movie.id} draggableId={movie.id} index={index}>
-      {(provided, snapshot) => {
+    <Draggable key={movie.id} draggableId={movie.id.toString()} index={index}>
+      {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => {
         return (
           <div
             {...provided.draggableProps}
@@ -14,7 +21,7 @@ function MovieItem({ movie, index, image }) {
             ref={provided.innerRef}
             className={`item-container ${snapshot.isDragging ? 'dragging' : ''}`}
           >
-            <img className="movie-avatar" src={image} alt={movie.title}></img>
+            <img className="movie-avatar" src={imageURL} alt={movie.title}></img>
             <div className='content-container'>
             {movie.title}
             <div className='subcontent'>{movie.release_year}</div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-function HomePage() {
+const HomePage: React.FC = () => {
   return (
       <h2>Welcome to MovieList</h2>
   );

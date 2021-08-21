@@ -1,8 +1,12 @@
 import React from "react";
 import './Filter.css'
 
-function Filter({onInput}) {
-  const [filterValue, setFilterValue] = React.useState("");
+interface IFilterProps {
+  onInput: (filter: string) => void,
+}
+
+const Filter: React.FC<IFilterProps> = ({onInput}) => {
+  const [filterValue, setFilterValue] = React.useState<string>("");
 
   return (
     <div>
@@ -11,7 +15,7 @@ function Filter({onInput}) {
         type="text"
         value={filterValue}
         placeholder='Type to search...'
-        onChange={(event) => {
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setFilterValue(event.target.value);
           onInput(event.target.value);
         }}

@@ -1,13 +1,20 @@
 import React from "react";
-import { Droppable } from "react-beautiful-dnd";
+import { Droppable, DroppableProvided, DroppableStateSnapshot } from "react-beautiful-dnd";
+import { IColumn, IMovie } from "../../types/movies";
 import Filter from "../Filter/Filter";
 import MovieItem from "../MovieItem/MovieItem";
 import "./Column.css";
 
-function Column({ title, movies, column }) {
-  const [filter, setFilter] = React.useState(null);
+interface IColumnProps {
+  title: string,
+  movies: Array<IMovie>,
+  column: IColumn,
+}
 
-  const filterList = (array, option, filterText) => {
+const Column: React.FC<IColumnProps> = ({ title, movies, column }) => {
+  const [filter, setFilter] = React.useState<string>('');
+
+  const filterMovieArray = (array: Array<any>, option: string, filterText: string): Array<IMovie> => {
     if (!filterText) return array;
     return array.map((item) => {
       let itemOption = item[option];
@@ -33,7 +40,7 @@ function Column({ title, movies, column }) {
       </div>
 
       <Droppable droppableId={column.id}>
-        {(provided, snapshot) => (
+        {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
           <div
             className={
               snapshot.isDraggingOver ? "movie-list dragged-over" : "movie-list"
@@ -41,10 +48,10 @@ function Column({ title, movies, column }) {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {filterList(movies, "title", filter).map((movie, index) => {
+            {filterMovieArray(movies, "title", filter).map((movie: IMovie, index: number) => {
               return (
                 <MovieItem
-                  image={movie.image}
+                  imageURL={movie.imageURL}
                   index={index}
                   movie={movie}
                   key={movie.id}

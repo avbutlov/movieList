@@ -1,0 +1,3 @@
+export const SET_MOVIES = "SET_MOVIES";
+export const SET_COLUMNS = "SET_COLUMNS";
+export const SET_INITIAL_MOVIES_IDS = "SET_INITIAL_MOVIES_IDS";
