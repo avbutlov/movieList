@@ -1,6 +1,11 @@
-import { SET_COLUMNS, SET_INITIAL_MOVIES_IDS, SET_MOVIES } from "../constants";
+import {
+  FETCH_MOVIES_FAILURE,
+  FETCH_MOVIES_SUCCESS,
+  SET_COLUMNS,
+  SET_INITIAL_MOVIES_IDS,
+  SET_MOVIES,
+} from "../constants";
 import { IMoviesState, MoviesAction } from "../../types/movies";
-
 
 const initialState: IMoviesState = {
   movies: [],
@@ -22,10 +27,23 @@ const initialState: IMoviesState = {
     },
   },
   columnsIds: ["firstColumn", "secondColumn", "thirdColumn"],
+  error: false,
 };
 
 export const movies = (state = initialState, action: MoviesAction): IMoviesState => {
   switch (action.type) {
+    case FETCH_MOVIES_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
+    case FETCH_MOVIES_FAILURE:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     case SET_MOVIES:
       return {
         ...state,

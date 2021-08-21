@@ -1,19 +1,21 @@
 import React from "react";
 import Column from "../Column/Column";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import "./ColumnsContainer.css";
+import styles from './ColumnsContainer.module.css';
 import { useDispatch } from "react-redux";
 import { fetchMovies, setColumns } from "../../redux/actions/movies";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { IMovie } from "../../types/movies";
+import Notification from "../Notification/Notification";
 
 const ColumnsContainer: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { stateMovies, stateColumns, columnsIds } = useTypedSelector((state) => ({
+  const { stateMovies, stateColumns, columnsIds, fetchError } = useTypedSelector((state) => ({
     stateMovies: state.moviesReducer.movies,
     stateColumns: state.moviesReducer.columns,
-    columnsIds: state.moviesReducer.columnsIds
+    columnsIds: state.moviesReducer.columnsIds,
+    fetchError: state.moviesReducer.error
   }));
 
   React.useEffect(() => {
@@ -88,8 +90,12 @@ const ColumnsContainer: React.FC = () => {
     }, {});
   };
 
+  if (fetchError) {
+    return <Notification text='Ooops... something goes really wrong'/>
+  }
+
   return (
-    <div className="columns-wrapper">
+    <div className={styles.columnsWrapper}>
       <DragDropContext onDragEnd={onDragEnd}>
         {columnsIds.map((columnId) => {
           const column = stateColumns[columnId];

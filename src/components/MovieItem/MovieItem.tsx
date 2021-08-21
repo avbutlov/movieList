@@ -1,7 +1,7 @@
 import React from "react";
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 import { IMovie } from "../../types/movies";
-import "./MovieItem.css";
+import styles from "./MovieItem.module.css";
 
 interface IMovieItemProps {
   movie: IMovie,
@@ -19,12 +19,12 @@ const MovieItem: React.FC<IMovieItemProps> = ({ movie, index, imageURL }) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            className={`item-container ${snapshot.isDragging ? 'dragging' : ''}`}
+            className={`${styles.itemContainer} ${snapshot.isDragging ? styles.dragging : ''}`}
           >
-            <img className="movie-avatar" src={imageURL} alt={movie.title}></img>
-            <div className='content-container'>
+            <img className={styles.movieAvatar} src={imageURL} alt={movie.title}></img>
+            <div className={styles.contentContainer}>
             {movie.title}
-            <div className='subcontent'>{movie.release_year}</div>
+            <div className={styles.subContent}>{movie.release_year}</div>
             </div>
           </div>
         );

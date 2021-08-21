@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./Header.css";
+import styles from "./Header.module.css";
 
-function Header() {
+const Header: React.FC = () => {
   const location = useLocation();
 
   const links = [
@@ -18,14 +18,14 @@ function Header() {
   ];
 
   return (
-    <div className="header-wrapper">
-      <ul className="nav-panel">
+    <div className={styles.headerWrapper}>
+      <ul className={styles.navPanel}>
         {links.map((link) => {
           return (
             <li
               key={link.title}
-              className={`link ${
-                link.pathname === location.pathname ? "active" : ""
+              className={`${styles.link} ${
+                link.pathname === location.pathname ? styles.active : ""
               }`}
             >
               <Link to={link.pathname}>{link.title}</Link>

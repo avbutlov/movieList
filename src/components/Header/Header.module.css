@@ -1,4 +1,4 @@
-.header-wrapper {
+.headerWrapper {
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -6,15 +6,16 @@
   margin-bottom: 5px;
 }
 
-.nav-panel {
+.navPanel {
   display: flex;
-  width: 68%;
+  width: 80%;
+  max-width: 1000px;
   padding-left: 10px;
   padding-right: 10px;
   list-style: none;
 }
 
-.nav-panel li {
+.navPanel li {
   position: relative;
   font-size: 1.2em;
   margin-right: 20px;
@@ -34,8 +35,8 @@ li.active a {
   cursor: default;
 }
 
-@media (max-width: 1000px) {
-  .nav-panel {
+@media (max-width: 1200px) {
+  .navPanel {
     width: 95%;
   }
 }

@@ -1,20 +1,27 @@
 import React from "react";
-import { Droppable, DroppableProvided, DroppableStateSnapshot } from "react-beautiful-dnd";
+import {
+  Droppable,
+  DroppableProvided,
+} from "react-beautiful-dnd";
 import { IColumn, IMovie } from "../../types/movies";
-import Filter from "../Filter/Filter";
 import MovieItem from "../MovieItem/MovieItem";
-import "./Column.css";
+import styles from "./Column.module.css";
+import TextInput from "../TextInput/TextInput";
 
 interface IColumnProps {
-  title: string,
-  movies: Array<IMovie>,
-  column: IColumn,
+  title: string;
+  movies: Array<IMovie>;
+  column: IColumn;
 }
 
 const Column: React.FC<IColumnProps> = ({ title, movies, column }) => {
-  const [filter, setFilter] = React.useState<string>('');
+  const [filter, setFilter] = React.useState<string>("");
 
-  const filterMovieArray = (array: Array<any>, option: string, filterText: string): Array<IMovie> => {
+  const filterMovieArray = (
+    array: Array<any>,
+    option: string,
+    filterText: string
+  ): Array<IMovie> => {
     if (!filterText) return array;
     return array.map((item) => {
       let itemOption = item[option];
@@ -33,37 +40,37 @@ const Column: React.FC<IColumnProps> = ({ title, movies, column }) => {
   };
 
   return (
-    <div className="column">
-      <div className="column-header">
+    <div className={styles.column}>
+      <div className={styles.columnHeader}>
         <h4>{title}</h4>
-        <Filter onInput={setFilter} />
+        <TextInput placeholder='Type to search...' onInput={setFilter} />
       </div>
 
       <Droppable droppableId={column.id}>
-        {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
+        {(provided: DroppableProvided) => (
           <div
-            className={
-              snapshot.isDraggingOver ? "movie-list dragged-over" : "movie-list"
-            }
+            className={styles.movieList}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {filterMovieArray(movies, "title", filter).map((movie: IMovie, index: number) => {
-              return (
-                <MovieItem
-                  imageURL={movie.imageURL}
-                  index={index}
-                  movie={movie}
-                  key={movie.id}
-                />
-              );
-            })}
+            {filterMovieArray(movies, "title", filter).map(
+              (movie: IMovie, index: number) => {
+                return (
+                  <MovieItem
+                    imageURL={movie.imageURL}
+                    index={index}
+                    movie={movie}
+                    key={movie.id}
+                  />
+                );
+              }
+            )}
             {provided.placeholder}
           </div>
         )}
       </Droppable>
     </div>
   );
-}
+};
 
 export default Column;

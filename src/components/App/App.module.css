@@ -1,0 +1,22 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    max-width: 1000px;
+    font-size: 1rem;
+    font-family: 'Nunito', sans-serif;
+}
+
+
+@media(max-width: 1200px) {
+    .app {
+        width: 100vw;
+    }
+}
+
+@media (max-width: 465px) {
+    .app {
+        font-size: 0.7rem;
+    }
+  }

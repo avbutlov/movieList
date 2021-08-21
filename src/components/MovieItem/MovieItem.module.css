@@ -1,4 +1,4 @@
-.item-container {
+.itemContainer {
   display: flex;
   background-color: white;
   padding: 10px;
@@ -14,7 +14,7 @@
   border-color: rgba(0, 0, 0, 0.71);
 }
 
-.movie-avatar {
+.movieAvatar {
   border-radius: 50%;
   object-fit: cover;
   margin-right: 20px;
@@ -26,20 +26,20 @@
   display: none;
 }
 
-.content-container {
+.contentContainer {
   display: flex;
   flex-direction: column;
 }
 
-.subcontent {
+.subContent {
   color: rgba(0, 0, 0, 0.71);
   width: fit-content;
   background-color: rgb(255, 250, 230);
   padding: 4px;
 }
 
-@media(max-width: 460px) {
-    .movie-avatar {
+@media(max-width: 680px) {
+    .movieAvatar {
         display: none;
     }
 }
