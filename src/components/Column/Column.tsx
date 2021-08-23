@@ -1,6 +1,6 @@
 import React from "react";
 import { Droppable, DroppableProvided } from "react-beautiful-dnd";
-import { IColumn, IItemIcons, IMovie, MovieKeyType } from "../../types/movies";
+import { IColumn, IColumnIcons, IMovie, MovieKeyType } from "../../types/movies";
 import MovieItem from "../MovieItem/MovieItem";
 import styles from "./Column.module.css";
 import TextInput from "../TextInput/TextInput";
@@ -28,7 +28,7 @@ const Column: React.FC<IColumnProps> = ({
     stateColumnsIds: state.moviesReducer.columnsIds,
   }));
 
-  const columnIcons: IItemIcons = {
+  const columnIcons: IColumnIcons = {
     firstColumn: <AiOutlineEye />,
     secondColumn: <AiOutlineEyeInvisible />,
   };

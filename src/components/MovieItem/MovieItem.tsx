@@ -5,7 +5,7 @@ import {
   DraggableStateSnapshot,
 } from "react-beautiful-dnd";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { IColumn, IMovie, IItemIcons } from "../../types/movies";
+import { IColumn, IMovie, IColumnIcons } from "../../types/movies";
 import Button from "../Button/Button";
 import styles from "./MovieItem.module.css";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
@@ -30,7 +30,7 @@ const MovieItem: React.FC<IMovieItemProps> = ({movie, index, imageURL, column, m
     stateColumnsIds: state.moviesReducer.columnsIds,
   }));
 
-  const itemIcons: IItemIcons = {
+  const itemIcons: IColumnIcons = {
     firstColumn: <AiOutlineEye/>,
     secondColumn: <AiOutlineEyeInvisible/>
   }

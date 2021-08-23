@@ -15,7 +15,7 @@ export interface IInitialMovieItem {
   release_date: string;
 }
 
-export interface IItemIcons {
+export interface IColumnIcons {
   [key: string]: React.ReactNode
 }
 
