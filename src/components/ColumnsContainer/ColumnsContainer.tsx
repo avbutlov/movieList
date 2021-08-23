@@ -1,28 +1,45 @@
 import React from "react";
 import Column from "../Column/Column";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import styles from './ColumnsContainer.module.css';
+import styles from "./ColumnsContainer.module.css";
 import { useDispatch } from "react-redux";
-import { fetchMovies, setColumns } from "../../redux/actions/movies";
+import {
+  fetchMovies,
+  setColumns,
+  setMoviesState,
+} from "../../redux/actions/movies";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { IMovie } from "../../types/movies";
+import { IMovie, IMovieKeyType, IMoviesState } from "../../types/movies";
 import Notification from "../Notification/Notification";
 
 const ColumnsContainer: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { stateMovies, stateColumns, columnsIds, fetchError } = useTypedSelector((state) => ({
-    stateMovies: state.moviesReducer.movies,
-    stateColumns: state.moviesReducer.columns,
-    columnsIds: state.moviesReducer.columnsIds,
-    fetchError: state.moviesReducer.error
-  }));
+  const { moviesState, stateMovies, stateColumns, columnsIds, fetchError } =
+    useTypedSelector((state) => ({
+      moviesState: state.moviesReducer,
+      stateMovies: state.moviesReducer.movies,
+      stateColumns: state.moviesReducer.columns,
+      columnsIds: state.moviesReducer.columnsIds,
+      fetchError: state.moviesReducer.error,
+    }));
+
+  const getStorageMoviesState = (): IMoviesState => {
+    const storageState = JSON.parse(`${localStorage.getItem("state")}`);
+    if (storageState && storageState.moviesReducer) {
+      return storageState.moviesReducer;
+    } else {
+      return moviesState;
+    }
+  };
 
   React.useEffect(() => {
-    if (!stateMovies.length) {
+    if (!stateMovies.length && getStorageMoviesState().movies.length) {
+      dispatch(setMoviesState(getStorageMoviesState()));
+    } else if (!stateMovies.length) {
       dispatch(fetchMovies());
     }
-  }, [dispatch, stateMovies.length]);
+  });
 
   const onDragEnd = (result: DropResult): void => {
     const { destination, source, draggableId } = result;
@@ -83,15 +100,16 @@ const ColumnsContainer: React.FC = () => {
     }
   };
 
-  const groupMoviesById = (array: Array<any>, key: string): Record<string, IMovie> => {
-    return array.reduce((result, item) => {
-      result[item[key]] = item;
+  const groupMoviesById = (array: Array<IMovie>, key: IMovieKeyType): Record<string, IMovie> => {
+    return array.reduce((result: Record<string, IMovie>, item: IMovie) => {
+      const resultKey = `${item[key]}`;
+      result[resultKey] = item;
       return result;
     }, {});
   };
 
   if (fetchError) {
-    return <Notification text='Ooops... something goes really wrong'/>
+    return <Notification text="Ooops... something goes really wrong" />;
   }
 
   return (
@@ -115,6 +133,6 @@ const ColumnsContainer: React.FC = () => {
       </DragDropContext>
     </div>
   );
-}
+};
 
 export default ColumnsContainer;

@@ -4,6 +4,7 @@ import {
   SET_COLUMNS,
   SET_INITIAL_MOVIES_IDS,
   SET_MOVIES,
+  SET_MOVIES_STATE,
 } from "../redux/constants";
 
 export interface IInitialMovieItem {
@@ -13,6 +14,12 @@ export interface IInitialMovieItem {
   release_date: string;
 }
 
+export type IMovieKeyType =
+  | "id"
+  | "title"
+  | "imageURL"
+  | "release_year"
+  | "isVisible";
 export interface IMovie {
   id: number;
   title: string;
@@ -36,18 +43,17 @@ export interface IMoviesState {
   error: boolean;
 }
 
-
 interface IFetchMoviesResult {
   payload: {
-    error: boolean
-  }
+    error: boolean;
+  };
 }
 export interface IFetchMoviesSuccess extends IFetchMoviesResult {
   type: typeof FETCH_MOVIES_SUCCESS;
 }
 
 export interface IFetchMoviesFailure extends IFetchMoviesResult {
-  type: typeof FETCH_MOVIES_FAILURE,
+  type: typeof FETCH_MOVIES_FAILURE;
 }
 export interface ISetMoviesAction {
   type: typeof SET_MOVIES;
@@ -65,6 +71,10 @@ export interface ISetColumns {
     [key: string]: IColumn;
   };
 }
+export interface ISetMoviesState {
+  type: typeof SET_MOVIES_STATE,
+  payload: IMoviesState
+}
 
 export type MoviesAction =
   | ISetMoviesAction
@@ -72,4 +82,5 @@ export type MoviesAction =
   | ISetColumns
   | IFetchMoviesSuccess
   | IFetchMoviesFailure
+  | ISetMoviesState  
   ;

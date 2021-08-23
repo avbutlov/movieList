@@ -4,6 +4,7 @@ import {
   SET_COLUMNS,
   SET_INITIAL_MOVIES_IDS,
   SET_MOVIES,
+  SET_MOVIES_STATE,
 } from "../constants";
 import { IMoviesState, MoviesAction } from "../../types/movies";
 
@@ -30,8 +31,17 @@ const initialState: IMoviesState = {
   error: false,
 };
 
-export const movies = (state = initialState, action: MoviesAction): IMoviesState => {
+export const movies = (
+  state = initialState,
+  action: MoviesAction
+): IMoviesState => {
   switch (action.type) {
+    case SET_MOVIES_STATE:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     case FETCH_MOVIES_SUCCESS:
       return {
         ...state,

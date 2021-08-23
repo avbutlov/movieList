@@ -3,7 +3,7 @@ import {
   Droppable,
   DroppableProvided,
 } from "react-beautiful-dnd";
-import { IColumn, IMovie } from "../../types/movies";
+import { IColumn, IMovie, IMovieKeyType } from "../../types/movies";
 import MovieItem from "../MovieItem/MovieItem";
 import styles from "./Column.module.css";
 import TextInput from "../TextInput/TextInput";
@@ -17,15 +17,11 @@ interface IColumnProps {
 const Column: React.FC<IColumnProps> = ({ title, movies, column }) => {
   const [filter, setFilter] = React.useState<string>("");
 
-  const filterMovieArray = (
-    array: Array<any>,
-    option: string,
-    filterText: string
-  ): Array<IMovie> => {
+  const filterMovieArray = (array: Array<IMovie>, key: IMovieKeyType, filterText: string): Array<IMovie> => {
     if (!filterText) return array;
     return array.map((item) => {
-      let itemOption = item[option];
-      if (itemOption.toUpperCase().includes(filterText.toUpperCase())) {
+      let itemOption = item[key];
+      if (`${itemOption}`.toUpperCase().includes(filterText.toUpperCase())) {
         return {
           ...item,
           isVisible: true,

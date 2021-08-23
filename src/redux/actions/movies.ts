@@ -6,6 +6,7 @@ import {
   SET_COLUMNS,
   SET_INITIAL_MOVIES_IDS,
   SET_MOVIES,
+  SET_MOVIES_STATE,
 } from "../constants";
 import {
   IColumn,
@@ -16,6 +17,8 @@ import {
   MoviesAction,
   IFetchMoviesSuccess,
   IFetchMoviesFailure,
+  ISetMoviesState,
+  IMoviesState,
 } from "../../types/movies.js";
 
 export const fetchMovies = () => async (dispatch: Dispatch<MoviesAction>) => {
@@ -30,6 +33,11 @@ export const fetchMovies = () => async (dispatch: Dispatch<MoviesAction>) => {
     dispatch(fetchMoviesFailure());
   }
 };
+
+export const setMoviesState = (moviesState: IMoviesState): ISetMoviesState => ({
+  type: SET_MOVIES_STATE,
+  payload: moviesState,
+});
 
 const fetchMoviesSuccess = (): IFetchMoviesSuccess => ({
   type: FETCH_MOVIES_SUCCESS,
