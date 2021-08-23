@@ -9,7 +9,12 @@ import {
   setMoviesState,
 } from "../../redux/actions/movies";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { IMovie, IMovieKeyType, IMoviesState } from "../../types/movies";
+import {
+  IColumn,
+  IMovie,
+  MovieKeyType,
+  IMoviesState,
+} from "../../types/movies";
 import Notification from "../Notification/Notification";
 
 const ColumnsContainer: React.FC = () => {
@@ -25,7 +30,7 @@ const ColumnsContainer: React.FC = () => {
     }));
 
   const getStorageMoviesState = (): IMoviesState => {
-    const storageState = JSON.parse(`${localStorage.getItem("state")}`);
+    const storageState = JSON.parse(`${localStorage.getItem("appState")}`);
     if (storageState && storageState.moviesReducer) {
       return storageState.moviesReducer;
     } else {
@@ -40,6 +45,44 @@ const ColumnsContainer: React.FC = () => {
       dispatch(fetchMovies());
     }
   });
+
+  const moveItemsToNextColumn = (
+    startColumn: IColumn,
+    finishColumn: IColumn,
+    itemId?: number,
+    startIndex?: number,
+    finishIndex?: number
+  ): void => {
+    const startMoviesIds = [...startColumn.moviesIds];
+
+    const finishMoviesIds = [...finishColumn.moviesIds];
+
+    if (itemId) {
+      startMoviesIds.splice(Number(startIndex), 1);
+      finishMoviesIds.splice(Number(finishIndex), 0, +itemId);
+    } else {
+      finishMoviesIds.push(...startMoviesIds);
+      startMoviesIds.splice(0, startMoviesIds.length);
+    }
+     
+    const newStartColumn = {
+      ...startColumn,
+      moviesIds: startMoviesIds,
+    };
+
+    const newFinishColumn = {
+      ...finishColumn,
+      moviesIds: finishMoviesIds,
+    };
+
+    dispatch(
+      setColumns({
+        ...stateColumns,
+        [newStartColumn.id]: newStartColumn,
+        [newFinishColumn.id]: newFinishColumn,
+      })
+    );
+  };
 
   const onDragEnd = (result: DropResult): void => {
     const { destination, source, draggableId } = result;
@@ -58,13 +101,13 @@ const ColumnsContainer: React.FC = () => {
     const finishColumn = stateColumns[destination.droppableId];
 
     if (startColumn === finishColumn) {
-      const newTasksIds = [...startColumn.moviesIds];
-      newTasksIds.splice(source.index, 1);
-      newTasksIds.splice(destination.index, 0, +draggableId);
+      const newMoviesIds = [...startColumn.moviesIds];
+      newMoviesIds.splice(source.index, 1);
+      newMoviesIds.splice(destination.index, 0, +draggableId);
 
       const newColumn = {
         ...startColumn,
-        moviesIds: newTasksIds,
+        moviesIds: newMoviesIds,
       };
 
       dispatch(
@@ -74,33 +117,17 @@ const ColumnsContainer: React.FC = () => {
         })
       );
     } else {
-      const startTasksIds = [...startColumn.moviesIds];
-      startTasksIds.splice(source.index, 1);
-
-      const newStartColumn = {
-        ...startColumn,
-        moviesIds: startTasksIds,
-      };
-
-      const finishTasksIds = [...finishColumn.moviesIds];
-      finishTasksIds.splice(destination.index, 0, +draggableId);
-
-      const newFinishColumn = {
-        ...finishColumn,
-        moviesIds: finishTasksIds,
-      };
-
-      dispatch(
-        setColumns({
-          ...stateColumns,
-          [newStartColumn.id]: newStartColumn,
-          [newFinishColumn.id]: newFinishColumn,
-        })
+      moveItemsToNextColumn(
+        startColumn,
+        finishColumn,
+        +draggableId,
+        source.index,
+        destination.index
       );
     }
   };
 
-  const groupMoviesById = (array: Array<IMovie>, key: IMovieKeyType): Record<string, IMovie> => {
+  const groupMoviesById = (array: Array<IMovie>, key: MovieKeyType): Record<string, IMovie> => {
     return array.reduce((result: Record<string, IMovie>, item: IMovie) => {
       const resultKey = `${item[key]}`;
       result[resultKey] = item;
@@ -127,6 +154,7 @@ const ColumnsContainer: React.FC = () => {
               column={column}
               title={column.title}
               key={column.id}
+              moveItemsToNextColumn={moveItemsToNextColumn}
             ></Column>
           );
         })}

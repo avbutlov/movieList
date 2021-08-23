@@ -14,7 +14,7 @@ export default class TmdapiService {
     };
   };
 
-  getResource = async (url: string): Promise<{results: IInitialMovieItem[]}> => {
+  getResource = async (url: string): Promise<{results: Array<IInitialMovieItem>}> => {
     const res = await fetch(`${this._apiBase}${url}`);
     return await res.json();
   };

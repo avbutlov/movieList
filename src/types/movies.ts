@@ -1,3 +1,4 @@
+import React from "react";
 import {
   FETCH_MOVIES_FAILURE,
   FETCH_MOVIES_SUCCESS,
@@ -14,7 +15,11 @@ export interface IInitialMovieItem {
   release_date: string;
 }
 
-export type IMovieKeyType =
+export interface IItemIcons {
+  [key: string]: React.ReactNode
+}
+
+export type MovieKeyType =
   | "id"
   | "title"
   | "imageURL"
@@ -72,8 +77,8 @@ export interface ISetColumns {
   };
 }
 export interface ISetMoviesState {
-  type: typeof SET_MOVIES_STATE,
-  payload: IMoviesState
+  type: typeof SET_MOVIES_STATE;
+  payload: IMoviesState;
 }
 
 export type MoviesAction =
@@ -82,5 +87,4 @@ export type MoviesAction =
   | ISetColumns
   | IFetchMoviesSuccess
   | IFetchMoviesFailure
-  | ISetMoviesState  
-  ;
+  | ISetMoviesState;

@@ -18,16 +18,11 @@ const initialState: IMoviesState = {
     },
     secondColumn: {
       id: "secondColumn",
-      title: "Want to watch",
-      moviesIds: [],
-    },
-    thirdColumn: {
-      id: "thirdColumn",
       title: "Watched",
       moviesIds: [],
     },
   },
-  columnsIds: ["firstColumn", "secondColumn", "thirdColumn"],
+  columnsIds: ["firstColumn", "secondColumn"],
   error: false,
 };
 

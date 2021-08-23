@@ -1,10 +1,11 @@
 .itemContainer {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: white;
   padding: 10px;
   margin-bottom: 5px;
   margin-right: 2px;
-  align-items: flex-start;
   border: 2px solid transparent;
   border-radius: 2px;
 }
@@ -28,6 +29,10 @@
 
 .contentContainer {
   display: flex;
+}
+
+.mainContent {
+  display: flex;
   flex-direction: column;
 }
 
@@ -38,8 +43,30 @@
   padding: 4px;
 }
 
+.btnWrapper svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btnWrapper button {
+  width: 35px;
+  height: 35px;
+}
+
+
+.btnWrapper button:active {
+  transform: scale(0.85);
+}
+
 @media(max-width: 680px) {
     .movieAvatar {
         display: none;
     }
+}
+
+@media(max-width: 456px) {
+  .btnWrapper svg {
+    width: 16px;
+    height: 16px;
+  }
 }

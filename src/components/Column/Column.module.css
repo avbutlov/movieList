@@ -5,6 +5,25 @@
   background-color: rgb(235, 236, 240);
 }
 
+.btnWrapper button {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.btnWrapper button:active {
+  background-color: rgb(255, 250, 230);
+}
+
+.btnWrapper button svg {
+  width: 17px;
+  height: 17px;
+  margin-left: 5px;
+}
+
+
 .column:not(:last-child) {
   margin-right: 10px;
 }
@@ -13,6 +32,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.columnHeader h4 {
+  margin: 15px 0;
 }
 
 .columnHeader input {
@@ -27,7 +50,11 @@
   overflow-y: scroll;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 850px) {
+  .columnHeader input {
+    margin-bottom: 15px;
+  } 
+
   .columnHeader {
     flex-direction: column;
     margin-bottom: 10px;
